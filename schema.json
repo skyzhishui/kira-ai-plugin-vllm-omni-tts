@@ -1,0 +1,98 @@
+{
+  "api_base_url": {
+    "type": "string",
+    "name": "vLLM-Omni 服务地址",
+    "default": "",
+    "hint": "OpenAI 兼容根地址（含 /v1），如 http://127.0.0.1:8000/v1；也可填不带版本段的地址（自动补 /v1/audio/speech）。留空则语音功能不可用。"
+  },
+  "model": {
+    "type": "string",
+    "name": "TTS 模型名",
+    "default": "Qwen3-TTS",
+    "hint": "vLLM-Omni 的 --served-model-name，如 Qwen3-TTS / voxcpm2。"
+  },
+  "api_key": {
+    "type": "sensitive",
+    "name": "API Key",
+    "default": "",
+    "hint": "服务端开启鉴权时填写（Bearer 方式）；本地部署通常留空。"
+  },
+  "default_voice": {
+    "type": "string",
+    "name": "默认音色名",
+    "default": "default",
+    "hint": "非克隆模式使用的 voice 字段。开启声音克隆后本项被参考音频替代。"
+  },
+  "enable_inline_emotion": {
+    "type": "bool",
+    "name": "启用内联情绪指令",
+    "default": false,
+    "hint": "仅部分模型支持（如 VoxCPM2）。开启后 LLM 才能看到 emotion 属性说明，可按句指定情绪/语气/节奏（以 (指令)文本 形式拼接到文本前）；LLM 未传 emotion 时对文本不做任何情绪控制。Qwen3-TTS 请保持关闭。"
+  },
+  "enable_clone": {
+    "type": "bool",
+    "name": "启用声音克隆",
+    "default": false,
+    "hint": "开启后使用下方参考音频替代预设音色（请求带 ref_audio + ref_text）。需要模型支持声音克隆（Qwen3-TTS / VoxCPM2 均支持）。"
+  },
+  "ref_audio_path": {
+    "type": "string",
+    "name": "克隆参考音频路径",
+    "default": "",
+    "hint": "3-10 秒干净人声样本。绝对路径原样使用；相对路径基于 KiraAI data/ 目录解析。仅 enable_clone=true 时生效。"
+  },
+  "ref_text": {
+    "type": "string",
+    "name": "克隆参考音频文本",
+    "default": "",
+    "hint": "参考音频中说的内容的逐字文本，与音频严格对应可提升克隆效果。仅 enable_clone=true 时生效。"
+  },
+  "sample_rate": {
+    "type": "integer",
+    "name": "采样率 (Hz)",
+    "default": 24000,
+    "hint": "仅流式模式下封 WAV 用：Qwen3-TTS 为 24000，VoxCPM2 为 48000，按所部署模型选择。非流式直接返回 WAV，不受本项影响。"
+  },
+  "use_stream": {
+    "type": "bool",
+    "name": "使用流式合成",
+    "default": false,
+    "hint": "开启后流式拉取裸 PCM（int16 mono）并按采样率封装 WAV，首包延迟更低；关闭则直接请求完整 WAV。"
+  },
+  "speed": {
+    "type": "float",
+    "name": "语速倍率",
+    "default": 1.0,
+    "hint": "范围 0.25-4.0，默认 1.0。"
+  },
+  "language": {
+    "type": "string",
+    "name": "语言提示",
+    "default": "",
+    "hint": "随请求传给服务端的 language 字段；留空则不传该字段（不同模型接受的字段名有差异，留空最稳妥）。"
+  },
+  "timeout_seconds": {
+    "type": "integer",
+    "name": "请求超时（秒）",
+    "default": 60,
+    "hint": "单次合成请求超时。服务冷启动首次请求可能较慢，建议不低于 30。"
+  },
+  "max_text_length": {
+    "type": "integer",
+    "name": "单次合成最大文本长度",
+    "default": 800,
+    "hint": "超出此长度的文本会在合成前截断（降级文本不受影响）。"
+  },
+  "auto_fix_voice_format": {
+    "type": "bool",
+    "name": "语音消息格式自动修复",
+    "default": true,
+    "hint": "语音与 @/回复混排时拆成单条发送（QQ 显示兼容），并自动摊平标签内嵌套写法；对内置 <record> 语音同样生效。"
+  },
+  "temp_keep": {
+    "type": "integer",
+    "name": "临时语音保留个数",
+    "default": 5,
+    "hint": "data/temp/vllm_omni_tts/ 下最多保留的 wav 文件个数，超出自动清理。"
+  }
+}

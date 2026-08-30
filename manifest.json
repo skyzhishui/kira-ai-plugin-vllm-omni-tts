@@ -1,0 +1,17 @@
+{
+  "display_name": "vLLM-Omni 语音合成",
+  "plugin_id": "kira-ai-plugin-vllm-omni-tts",
+  "version": "1.0.0",
+  "core_version": ">=2.31.0",
+  "author": "skyzhishui",
+  "description": "基于 vLLM-Omni（/v1/audio/speech）的语音合成插件：LLM 以 <vllm_tts> 标签直接发语音，支持流式/非流式、采样率选择（Qwen3-TTS 24kHz / VoxCPM2 48kHz）、内联情绪指令（可选）与声音克隆（可选）",
+  "tags": ["tts", "voice", "utility"],
+  "repo": "https://github.com/skyzhishui/kira-ai-plugin-vllm-omni-tts",
+  "icon": "icon.svg",
+  "locales": {
+    "en": {
+      "display_name": "vLLM-Omni TTS",
+      "description": "Text-to-speech for vLLM-Omni (/v1/audio/speech): the LLM sends voice via a <vllm_tts> tag. Supports streaming/non-streaming synthesis, configurable sample rate (Qwen3-TTS 24kHz / VoxCPM2 48kHz), optional inline emotion control and optional voice cloning."
+    }
+  }
+}
