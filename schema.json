@@ -24,13 +24,13 @@
     "hint": "非克隆模式使用的 voice 字段。开启声音克隆后本项被参考音频替代。"
   },
   "enable_inline_emotion": {
-    "type": "bool",
+    "type": "switch",
     "name": "启用内联情绪指令",
     "default": false,
     "hint": "仅部分模型支持（如 VoxCPM2）。开启后 LLM 才能看到 emotion 属性说明，可按句指定情绪/语气/节奏（以 (指令)文本 形式拼接到文本前）；LLM 未传 emotion 时对文本不做任何情绪控制。Qwen3-TTS 请保持关闭。"
   },
   "enable_clone": {
-    "type": "bool",
+    "type": "switch",
     "name": "启用声音克隆",
     "default": false,
     "hint": "开启后使用下方参考音频替代预设音色（请求带 ref_audio + ref_text）。需要模型支持声音克隆（Qwen3-TTS / VoxCPM2 均支持）。"
@@ -54,7 +54,7 @@
     "hint": "仅流式模式下封 WAV 用：Qwen3-TTS 为 24000，VoxCPM2 为 48000，按所部署模型选择。非流式直接返回 WAV，不受本项影响。"
   },
   "use_stream": {
-    "type": "bool",
+    "type": "switch",
     "name": "使用流式合成",
     "default": false,
     "hint": "开启后流式拉取裸 PCM（int16 mono）并按采样率封装 WAV，首包延迟更低；关闭则直接请求完整 WAV。"
@@ -84,7 +84,7 @@
     "hint": "超出此长度的文本会在合成前截断（降级文本不受影响）。"
   },
   "auto_fix_voice_format": {
-    "type": "bool",
+    "type": "switch",
     "name": "语音消息格式自动修复",
     "default": true,
     "hint": "语音与 @/回复混排时拆成单条发送（QQ 显示兼容），并自动摊平标签内嵌套写法；对内置 <record> 语音同样生效。"
