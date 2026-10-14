@@ -214,13 +214,13 @@ class VllmOmniTtsPlugin(BasePlugin):
     async def inject_tts_tag(self, event, req, tag_set, *args, **kwargs):
         """按需注册 <vllm_tts> 标签（与内置标签同模式）。
 
-        未配置服务、平台不支持语音（message_types 无 record）时不注册，
+        未配置服务、平台不支持语音（supported_elements 无 record）时不注册，
         LLM 不会看到该标签。
         """
         if self._client is None:
             return
-        message_types = getattr(event, "message_types", None) or []
-        if "record" not in message_types:
+        supported_elements = getattr(event, "supported_elements", None) or []
+        if "record" not in supported_elements:
             return
         tag_set.register(_VllmTtsTag(self))
 

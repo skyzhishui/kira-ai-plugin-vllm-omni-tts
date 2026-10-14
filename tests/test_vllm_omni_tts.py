@@ -347,7 +347,7 @@ async def test_inject_registers_tag_when_ready():
     mod = _load_plugin_module()
     inst = await _ready_plugin({}, mod)
     ts = _TagSetStub()
-    event = types.SimpleNamespace(message_types=["text", "record"])
+    event = types.SimpleNamespace(supported_elements=["text", "record"])
     await inst.inject_tts_tag(event, None, ts)
     assert len(ts.registered) == 1
     tag = ts.registered[0]
@@ -361,7 +361,7 @@ async def test_inject_skips_when_not_configured():
     inst = _make_plugin({})
     await inst.initialize()
     ts = _TagSetStub()
-    event = types.SimpleNamespace(message_types=["text", "record"])
+    event = types.SimpleNamespace(supported_elements=["text", "record"])
     await inst.inject_tts_tag(event, None, ts)
     assert ts.registered == []
 
@@ -369,7 +369,7 @@ async def test_inject_skips_when_not_configured():
 async def test_inject_skips_when_platform_no_record():
     inst = await _ready_plugin({})
     ts = _TagSetStub()
-    event = types.SimpleNamespace(message_types=["text", "img"])
+    event = types.SimpleNamespace(supported_elements=["text", "img"])
     await inst.inject_tts_tag(event, None, ts)
     assert ts.registered == []
 
