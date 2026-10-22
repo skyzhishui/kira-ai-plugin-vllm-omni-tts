@@ -344,10 +344,11 @@ async def test_description_with_emotion():
 
 
 async def test_inject_registers_tag_when_ready():
+    """服务已配置且 supported_elements 含 record 时注册语音标签。"""
     mod = _load_plugin_module()
     inst = await _ready_plugin({}, mod)
     ts = _TagSetStub()
-    event = types.SimpleNamespace(message_types=["text", "record"])
+    event = types.SimpleNamespace(supported_elements=["text", "record"])
     await inst.inject_tts_tag(event, None, ts)
     assert len(ts.registered) == 1
     tag = ts.registered[0]
@@ -358,18 +359,20 @@ async def test_inject_registers_tag_when_ready():
 
 
 async def test_inject_skips_when_not_configured():
+    """未配置服务时，即使 supported_elements 含 record 也不注册标签。"""
     inst = _make_plugin({})
     await inst.initialize()
     ts = _TagSetStub()
-    event = types.SimpleNamespace(message_types=["text", "record"])
+    event = types.SimpleNamespace(supported_elements=["text", "record"])
     await inst.inject_tts_tag(event, None, ts)
     assert ts.registered == []
 
 
 async def test_inject_skips_when_platform_no_record():
+    """supported_elements 不含 record 时不注册语音标签。"""
     inst = await _ready_plugin({})
     ts = _TagSetStub()
-    event = types.SimpleNamespace(message_types=["text", "img"])
+    event = types.SimpleNamespace(supported_elements=["text", "img"])
     await inst.inject_tts_tag(event, None, ts)
     assert ts.registered == []
 
